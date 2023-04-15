@@ -48,7 +48,7 @@ func fruit(w http.ResponseWriter, r *http.Request) {
 	err = updateFruit(r.Form, token)
 	if err != nil {
 		if err == ErrAuthorization {
-			w.WriteHeader(http.StatusUnauthorized)
+			w.WriteHeader(http.StatusForbidden)
 			w.Write([]byte("Authorization failed"))
 		} else if err == ErrBadRequest {
 			w.WriteHeader(http.StatusBadRequest)
