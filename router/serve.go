@@ -1,6 +1,7 @@
 package router
 
 import (
+	"fruits_microservice/auth"
 	"net/http"
 	"strconv"
 )
@@ -39,7 +40,10 @@ func fruit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: authenticate with JWT
+	token := auth.Authenticate(w, r)
+	if token == nil {
+		return
+	}
 
 	// TODO: update fruit
 }
