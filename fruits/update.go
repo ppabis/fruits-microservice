@@ -9,7 +9,7 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-func UpdateFruit(id int, username string, fruit string) error {
+func UpdateFruit(key string, username string, fruit string) error {
 	client := redis.NewClient(&redis.Options{
 		Addr: config.RedisEndpoint,
 	})
@@ -18,7 +18,6 @@ func UpdateFruit(id int, username string, fruit string) error {
 		return fmt.Errorf("cannot connect to redis, aborting")
 	}
 
-	key := fmt.Sprintf("user:%d", id)
 	username_b64 := base64.StdEncoding.EncodeToString([]byte(username))
 	value := fmt.Sprintf("%s:%s", username_b64, fruit)
 
