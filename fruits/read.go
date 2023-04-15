@@ -59,3 +59,27 @@ func parseRecord(record string) (string, string, error) {
 
 	return string(decodedUsername), splitRecord[1], nil
 }
+
+func GetFruit(id int) (string, error) {
+	client := redis.NewClient(&redis.Options{
+		Addr: config.RedisEndpoint,
+	})
+	ctx := context.TODO()
+
+	if err := client.Ping(ctx).Err(); err != nil {
+		return "", fmt.Errorf("cannot connect to redis: %v", err)
+	}
+
+	key := fmt.Sprintf("user:%d", id)
+	record, err := client.Get(ctx, key).Result()
+	if err != nil {
+		return "", fmt.Errorf("failed to get key %s: %v", key, err)
+	}
+
+	_, fruit, err := parseRecord(record)
+	if err != nil {
+		return "", fmt.Errorf("failed to parse record: %v", err)
+	}
+
+	return fruit, nil
+}
