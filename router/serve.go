@@ -45,7 +45,22 @@ func fruit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: update fruit
+	err = updateFruit(r.Form, token)
+	if err != nil {
+		if err == ErrAuthorization {
+			w.WriteHeader(http.StatusUnauthorized)
+			w.Write([]byte("Authorization failed"))
+		} else if err == ErrBadRequest {
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("Bad request"))
+		} else {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("Internal server error"))
+		}
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
 
 func user(w http.ResponseWriter, r *http.Request) {
