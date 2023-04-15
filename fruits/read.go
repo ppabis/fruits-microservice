@@ -3,12 +3,15 @@ package fruits
 import (
 	"context"
 	"encoding/base64"
+	"errors"
 	"fmt"
 	"fruits_microservice/config"
 	"strings"
 
 	"github.com/redis/go-redis/v9"
 )
+
+var ErrKeyNotFound = errors.New("key not found")
 
 func GetFruits() (map[string]string, error) {
 	client := redis.NewClient(&redis.Options{
@@ -73,7 +76,7 @@ func GetFruit(id int) (string, error) {
 	key := fmt.Sprintf("user:%d", id)
 	record, err := client.Get(ctx, key).Result()
 	if err != nil {
-		return "", fmt.Errorf("failed to get key %s: %v", key, err)
+		return "", ErrKeyNotFound
 	}
 
 	_, fruit, err := parseRecord(record)
