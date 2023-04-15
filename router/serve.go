@@ -50,7 +50,7 @@ func user(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: get fruit
+	getByUser(w, r)
 
 }
 
@@ -60,6 +60,6 @@ func root(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO: get all fruits
+	getAllFruits(w)
 
 }
