@@ -1,14 +1,14 @@
 package auth
 
 import (
-	"fruits_microservice/test"
+	"fruits_microservice/test/mocks"
 	"net/url"
 	"testing"
 )
 
 func Test_SpecialFruitSuperUser(t *testing.T) {
 
-	token := test.MockJWTWithExtras(1, "fruits", map[string]interface{}{
+	token := mocks.MockJWTWithExtras(1, "fruits", map[string]interface{}{
 		"super":    true,
 		"username": "Henry",
 	})
@@ -24,7 +24,7 @@ func Test_SpecialFruitSuperUser(t *testing.T) {
 }
 
 func Test_SpecialFruitNormalUser(t *testing.T) {
-	token := test.MockJWTWithExtras(1, "fruits", map[string]interface{}{
+	token := mocks.MockJWTWithExtras(1, "fruits", map[string]interface{}{
 		"super":    false,
 		"username": "Henry",
 	})
@@ -40,7 +40,7 @@ func Test_SpecialFruitNormalUser(t *testing.T) {
 }
 
 func Test_NormalFruitNormalUser(t *testing.T) {
-	token := test.MockJWTWithExtras(1, "fruits", map[string]interface{}{
+	token := mocks.MockJWTWithExtras(1, "fruits", map[string]interface{}{
 		"super":    false,
 		"username": "Henry",
 	})
@@ -56,7 +56,7 @@ func Test_NormalFruitNormalUser(t *testing.T) {
 }
 
 func Test_NormalFruitSuperUser(t *testing.T) {
-	token := test.MockJWTWithExtras(1, "fruits", map[string]interface{}{
+	token := mocks.MockJWTWithExtras(1, "fruits", map[string]interface{}{
 		"super":    true,
 		"username": "Henry",
 	})

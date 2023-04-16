@@ -3,7 +3,6 @@ package auth
 import (
 	"testing"
 
-	"fruits_microservice/test"
 	"fruits_microservice/test/mocks"
 )
 
@@ -29,8 +28,8 @@ func Test_NoTokenGiven(t *testing.T) {
 }
 
 func Test_GoodTokenGiven(t *testing.T) {
-	privateKey := test.MockKeyPair()
-	mockToken, err := test.MockJWT(1, "fruits").SignedString(privateKey)
+	privateKey := mocks.MockKeyPair()
+	mockToken, err := mocks.MockJWT(1, "fruits").SignedString(privateKey)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -57,8 +56,8 @@ func Test_GoodTokenGiven(t *testing.T) {
 }
 
 func Test_WrongService(t *testing.T) {
-	privateKey := test.MockKeyPair()
-	mockToken, err := test.MockJWT(1, "wrong").SignedString(privateKey)
+	privateKey := mocks.MockKeyPair()
+	mockToken, err := mocks.MockJWT(1, "wrong").SignedString(privateKey)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,10 +84,10 @@ func Test_WrongService(t *testing.T) {
 }
 
 func Test_WrongSignature(t *testing.T) {
-	privateKey := test.MockKeyPair() // First key
-	test.MockKeyPair()               // Force new public key
+	privateKey := mocks.MockKeyPair() // First key
+	mocks.MockKeyPair()               // Force new public key
 
-	mockToken, err := test.MockJWT(1, "fruits").SignedString(privateKey)
+	mockToken, err := mocks.MockJWT(1, "fruits").SignedString(privateKey)
 	if err != nil {
 		t.Fatal(err)
 	}
