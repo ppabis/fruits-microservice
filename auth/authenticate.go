@@ -20,7 +20,7 @@ func Authenticate(w http.ResponseWriter, r *http.Request) *jwt.Token {
 
 	tok, err := jwt.Parse(token, func(t *jwt.Token) (interface{}, error) {
 		return config.PublicKey, nil
-	}, jwt.WithAudience("fruits"), jwt.WithValidMethods(allowedJwtMethods))
+	}, jwt.WithAudience("service:fruits"), jwt.WithValidMethods(allowedJwtMethods))
 
 	if err != nil || !tok.Valid {
 		w.Header().Add("Content-Type", "text/plain")
