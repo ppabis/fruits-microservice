@@ -1,0 +1,5 @@
+{
+    "go.testEnvVars": {
+        "PUBLIC_KEY_FILE": "${workspaceFolder}/monolith.pem",
+    }
+}
