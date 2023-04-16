@@ -48,8 +48,8 @@ func GetFruits() (map[string]string, error) {
 	return fruits, nil
 }
 
+// Returns username, fruit, nil or empty strings and error
 func parseRecord(record string) (string, string, error) {
-	// Returns username, fruit, nil or empty strings and error
 	splitRecord := strings.Split(record, ":")
 	if len(splitRecord) != 2 {
 		return "", "", fmt.Errorf("invalid record, parts count is not 2")
@@ -63,6 +63,8 @@ func parseRecord(record string) (string, string, error) {
 	return string(decodedUsername), splitRecord[1], nil
 }
 
+// Gets fruit of a user with id
+// returns username, fruit and error
 func GetFruit(id int) (string, string, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr: config.RedisEndpoint,
