@@ -17,9 +17,9 @@ func init() {
 	}
 
 	publicKeyPath := "monolith.pem"
-	if os.Getenv("PUBLIC_KEY") != "" {
-		if _, err := os.Stat(os.Getenv("PUBLIC_KEY")); err == nil {
-			publicKeyPath = os.Getenv("PUBLIC_KEY")
+	if os.Getenv("PUBLIC_KEY_FILE") != "" {
+		if _, err := os.Stat(os.Getenv("PUBLIC_KEY_FILE")); err == nil {
+			publicKeyPath = os.Getenv("PUBLIC_KEY_FILE")
 		}
 	}
 
