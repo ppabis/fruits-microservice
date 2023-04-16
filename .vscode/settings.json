@@ -1,5 +1,6 @@
 {
     "go.testEnvVars": {
         "PUBLIC_KEY_FILE": "${workspaceFolder}/monolith.pem",
-    }
+    },
+    "go.testTimeout": "2m",
 }
