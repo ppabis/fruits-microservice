@@ -18,13 +18,13 @@ func updateFruit(form url.Values, token *jwt.Token) error {
 		return ErrAuthorization
 	}
 
-	claims := token.Claims.(*jwt.MapClaims)
+	claims := token.Claims.(jwt.MapClaims)
 	subject, err := claims.GetSubject()
 	if err != nil {
 		return ErrBadRequest
 	}
 
-	username := (*claims)["username"].(string)
+	username := claims["username"].(string)
 
 	return fruits.UpdateFruit(subject, username, form.Get("fruit"))
 }
