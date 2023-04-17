@@ -6,13 +6,16 @@ import (
 	"strconv"
 )
 
+var Server *http.Server
+
 func Serve(port int) error {
 	// Serve the web app
 	mux := http.NewServeMux()
 	mux.HandleFunc("/fruit/", user)
 	mux.HandleFunc("/fruit", fruit)
 	mux.HandleFunc("/", root)
-	return http.ListenAndServe(":"+strconv.Itoa(port), mux)
+	Server = &http.Server{Addr: ":" + strconv.Itoa(port), Handler: mux}
+	return Server.ListenAndServe()
 }
 
 func validateMethod(w http.ResponseWriter, r *http.Request, allowed ...string) bool {
