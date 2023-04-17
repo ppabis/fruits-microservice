@@ -30,5 +30,5 @@ func MockJWTWithExtras(user int, service string, extras map[string]interface{}) 
 		claims[key] = value
 	}
 
-	return jwt.NewWithClaims(jwt.SigningMethodES512, &claims)
+	return jwt.NewWithClaims(jwt.SigningMethodES512, claims)
 }
