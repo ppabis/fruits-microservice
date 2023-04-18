@@ -5,6 +5,7 @@ import (
 	"fruits_microservice/auth"
 	"fruits_microservice/fruits"
 	"net/url"
+	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
 )
@@ -20,7 +21,7 @@ func updateFruit(form url.Values, token *jwt.Token) error {
 
 	claims := token.Claims.(jwt.MapClaims)
 	subject, err := claims.GetSubject()
-	if err != nil {
+	if err != nil || subject == "" || !strings.HasPrefix(subject, "user:") {
 		return ErrBadRequest
 	}
 
