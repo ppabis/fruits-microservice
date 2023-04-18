@@ -113,3 +113,32 @@ func Test_WrongSignature(t *testing.T) {
 	}
 
 }
+
+func Test_NoUserGiven(t *testing.T) {
+	privateKey := mocks.MockKeyPair()
+	mockToken, err := mocks.MockJWT(-1, "fruits").SignedString(privateKey)
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mockRequest, err := mocks.NewRequestWithHeaders("GET", map[string]string{
+		"X-Auth-Token": mockToken,
+	})
+
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	mockResponseWriter := &mocks.MockResponseWriter{}
+
+	token := Authenticate(mockResponseWriter, mockRequest)
+
+	if token != nil {
+		t.Fatal("Expected nil token")
+	}
+
+	if mockResponseWriter.Status != 401 {
+		t.Fatal("Expected status code 401")
+	}
+}

@@ -29,5 +29,12 @@ func Authenticate(w http.ResponseWriter, r *http.Request) *jwt.Token {
 		return nil
 	}
 
+	if user, err := token.Claims.(jwt.MapClaims).GetSubject(); err != nil || user == "" {
+		w.Header().Add("Content-Type", "text/plain")
+		w.WriteHeader(http.StatusUnauthorized)
+		w.Write([]byte("Unauthorized"))
+		return nil
+	}
+
 	return token
 }
