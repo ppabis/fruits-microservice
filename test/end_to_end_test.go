@@ -19,12 +19,7 @@ func TestEndToEnd(t *testing.T) {
 	e2e.Set_Fruit_With_Good_Key(t)
 	e2e.Get_One_Users_Fruit_After_Set(t)
 	e2e.Set_Fruit_With_Bad_Key(t)
+	e2e.Set_Fruit_With_Bad_Audience(t)
+	e2e.Get_All_Fruits_After_Set(t)
 
-	// TODO: Get all fruits
-
-	// TODO: Try setting fruit with bad token (user)
-
-	// TODO: Try setting fruit with bad token (audience)
-
-	// TODO: Get all fruits
 }

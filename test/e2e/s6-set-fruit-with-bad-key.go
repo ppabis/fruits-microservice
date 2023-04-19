@@ -27,7 +27,7 @@ func Set_Fruit_With_Bad_Key(t *testing.T) {
 	}
 
 	form := url.Values{}
-	form.Set("fruit", "banana")
+	form.Set("fruit", "grapes")
 
 	req, err := http.NewRequest("PUT", "http://localhost:"+strconv.Itoa(httpPort)+"/fruit", strings.NewReader(form.Encode()))
 	if err != nil {

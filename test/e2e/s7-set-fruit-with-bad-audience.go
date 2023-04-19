@@ -25,7 +25,7 @@ func Set_Fruit_With_Bad_Audience(t *testing.T) {
 	}
 
 	form := url.Values{}
-	form.Set("fruit", "banana")
+	form.Set("fruit", "watermelon")
 
 	req, err := http.NewRequest("PUT", "http://localhost:"+strconv.Itoa(httpPort)+"/fruit", strings.NewReader(form.Encode()))
 	if err != nil {
