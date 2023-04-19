@@ -13,6 +13,8 @@ import (
 
 var ErrKeyNotFound = errors.New("key not found")
 
+// Returns map of username => fruit or error
+// Error should be treated as >=500
 func GetFruits() (map[string]string, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr: config.RedisEndpoint,
@@ -48,7 +50,7 @@ func GetFruits() (map[string]string, error) {
 	return fruits, nil
 }
 
-// Returns username, fruit, nil or empty strings and error
+// Returns ("username", "fruit", nil) or (empty strings and error)
 func parseRecord(record string) (string, string, error) {
 	splitRecord := strings.Split(record, ":")
 	if len(splitRecord) != 2 {
@@ -63,8 +65,10 @@ func parseRecord(record string) (string, string, error) {
 	return string(decodedUsername), splitRecord[1], nil
 }
 
-// Gets fruit of a user with id
-// returns username, fruit and error
+// Gets fruit of a user with `id`
+// returns ("username", "fruit" and nil) or (empty strings and error)
+// If key is not found, returns ("", "", ErrKeyNotFound) that can be
+// understood as 404. Otherwise >=500.
 func GetFruit(id int) (string, string, error) {
 	client := redis.NewClient(&redis.Options{
 		Addr: config.RedisEndpoint,

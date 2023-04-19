@@ -9,6 +9,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Updates the fruit for a given user
+// There's no validation here, the record is just updated
+// straight away with what you put into this function!
+// Error should be treated as >=500
 func UpdateFruit(key string, username string, fruit string) error {
 	client := redis.NewClient(&redis.Options{
 		Addr: config.RedisEndpoint,

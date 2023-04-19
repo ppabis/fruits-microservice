@@ -22,6 +22,8 @@ func getByUser(w http.ResponseWriter, r *http.Request) {
 
 	username, fruit, err := fruits.GetFruit(id)
 
+	// If the error is ErrKeyNotFound, we return a 404
+	// otherwise the error is fatal so we return a 500
 	if err != nil {
 		w.Header().Add("Content-Type", "text/plain")
 		if err == fruits.ErrKeyNotFound {

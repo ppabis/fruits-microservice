@@ -2,8 +2,8 @@ package fruits
 
 import "strings"
 
+// Checks if a fruit is special
 func IsFruitSpecial(fruit string) bool {
-	// Checks if a fruit is special
 	fruit = strings.ToLower(fruit)
 	return fruit == "pineapple" || fruit == "kiwi"
 }
