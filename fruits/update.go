@@ -5,6 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"fruits_microservice/config"
+	"log"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -19,6 +20,7 @@ func UpdateFruit(key string, username string, fruit string) error {
 	})
 	ctx := context.TODO()
 	if client == nil || client.Ping(ctx).Err() != nil {
+		log.Default().Printf("UpdateFruit (%q) cannot connect to redis, aborting\n", key)
 		return fmt.Errorf("cannot connect to redis, aborting")
 	}
 

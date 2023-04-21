@@ -71,6 +71,7 @@ func fruit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	log.Default().Printf("[201] [%s] %q fruit set\n", r.RemoteAddr, r.URL.Path)
 }
 
 func user(w http.ResponseWriter, r *http.Request) {
