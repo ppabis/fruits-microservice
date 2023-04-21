@@ -3,6 +3,7 @@ package router
 import (
 	"encoding/json"
 	"fruits_microservice/fruits"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,6 +18,7 @@ func getByUser(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Content-Type", "text/plain")
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid ID"))
+		log.Default().Printf("[400] [%s] %q invalid ID\n", r.RemoteAddr, r.URL.Path)
 		return
 	}
 
@@ -29,15 +31,18 @@ func getByUser(w http.ResponseWriter, r *http.Request) {
 		if err == fruits.ErrKeyNotFound {
 			w.WriteHeader(http.StatusNotFound)
 			w.Write([]byte("Fruit of this user not found"))
+			log.Default().Printf("[404] [%s] %q fruit of user not found\n", r.RemoteAddr, r.URL.Path)
 		} else {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("Error occurred while getting fruit"))
+			log.Default().Printf("[500] [%s] %q error: %v\n", r.RemoteAddr, r.URL.Path, err)
 		}
 		return
 	}
 
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	log.Default().Printf("[200] [%s] %q\n", r.RemoteAddr, r.URL.Path)
 	json.NewEncoder(w).Encode(map[string]string{
 		"username": username,
 		"fruit":    fruit,
@@ -49,12 +54,13 @@ type userAndFruit struct {
 	Fruit    string `json:"fruit"`
 }
 
-func getAllFruits(w http.ResponseWriter) {
+func getAllFruits(r *http.Request, w http.ResponseWriter) {
 	fruits, err := fruits.GetFruits()
 	if err != nil {
 		w.Header().Add("Content-Type", "text/plain")
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error occurred while getting fruits"))
+		log.Default().Printf("[500] [%s] %q error: %v\n", r.RemoteAddr, r.URL.Path, err)
 		return
 	}
 
@@ -70,5 +76,6 @@ func getAllFruits(w http.ResponseWriter) {
 
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+	log.Default().Printf("[200] [%s] %q\n", r.RemoteAddr, r.URL.Path)
 	json.NewEncoder(w).Encode(usersFruits)
 }
