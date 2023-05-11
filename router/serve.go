@@ -2,6 +2,7 @@ package router
 
 import (
 	"fruits_microservice/auth"
+	"fruits_microservice/config"
 	"log"
 	"net/http"
 	"strconv"
@@ -33,8 +34,26 @@ func validateMethod(w http.ResponseWriter, r *http.Request, allowed ...string) b
 	return false
 }
 
+func corsPreflight(w http.ResponseWriter, r *http.Request) bool {
+	// handles CORS preflight requests
+	w.Header().Add("Access-Control-Allow-Origin", config.Origin)
+
+	if r.Method == "OPTIONS" {
+		w.Header().Add("Access-Control-Allow-Methods", "POST, PUT, GET")
+		w.Header().Add("Access-Control-Allow-Headers", "Authorization, Content-Type, X-Auth-Token")
+		w.WriteHeader(http.StatusOK)
+		log.Default().Printf("[200] [%s] %q CORS preflight\n", r.RemoteAddr, r.URL.Path)
+		return true
+	}
+	return false
+}
+
 func fruit(w http.ResponseWriter, r *http.Request) {
 	// handles URL: /fruit with POST and PUT - updates user's fruit
+	if corsPreflight(w, r) {
+		return
+	}
+
 	if !validateMethod(w, r, "POST", "PUT") {
 		return
 	}
@@ -76,6 +95,10 @@ func fruit(w http.ResponseWriter, r *http.Request) {
 
 func user(w http.ResponseWriter, r *http.Request) {
 	// handles URL: /fruit/:id - gets single user's fruit
+	if corsPreflight(w, r) {
+		return
+	}
+
 	if !validateMethod(w, r, "GET") {
 		return
 	}
@@ -86,6 +109,10 @@ func user(w http.ResponseWriter, r *http.Request) {
 
 func root(w http.ResponseWriter, r *http.Request) {
 	// handles URL: / - returns all fruits
+	if corsPreflight(w, r) {
+		return
+	}
+
 	if !validateMethod(w, r, "GET") {
 		return
 	}

@@ -9,6 +9,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
+var Origin string = "http://localhost:8080"
 var RedisEndpoint string = "localhost:6379"
 var PublicKey *ecdsa.PublicKey = nil
 
@@ -18,6 +19,12 @@ func init() {
 	}
 
 	log.Default().Printf("info: redis endpoint set to %q\n", RedisEndpoint)
+
+	if os.Getenv("HTTP_ORIGIN") != "" {
+		Origin = os.Getenv("HTTP_ORIGIN")
+	}
+
+	log.Default().Printf("info: http origin set to %q\n", Origin)
 
 	publicKeyPath := "monolith.pem"
 	if os.Getenv("PUBLIC_KEY_FILE") != "" {
